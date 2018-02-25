@@ -1,5 +1,4 @@
-###Yoplitein's exquisite ~/.bash_profile
-#warning: may contain small amounts of command-line kung-fu
+###MYSTERYomg's .bash_profile modified off of $Yoplitein
 
 #if not running interactively, don't do anything
 if [ -z "$PS1" ]; then
@@ -135,10 +134,10 @@ BOLD_COLOR="\[$(tput bold)\]"
 PS1="$SETTITLE"
 
 if [ -z "$TMUX" ]; then
-    PS1="$PS1$YELLOW_COLOR[\D{%H:%M:%S}]"
+    PS1="$PS1$PURPLE_COLOR[\D{%H:%M:%S}]"
 fi
 
-export PS1="$PS1$GREEN_COLOR\u$RED_COLOR@$BLUE_COLOR\h$BOLD_COLOR$PURPLE_COLOR:$YELLOW_COLOR\W $RED_COLOR\$(err=\$?; if [ \$err -ne 0 ]; then echo \"\$err \"; fi)$CYAN_COLOR\$$NORMAL_COLOR"
+export PS1="$PS1$PURPLE_COLOR\u@$BLUE_COLOR\h$BOLD_COLOR$PURPLE_COLOR:$YELLOW_COLOR\W $RED_COLOR\$(err=\$?; if [ \$err -ne 0 ]; then echo \"\$err \"; fi)$CYAN_COLOR\$$NORMAL_COLOR"
 
 #clean up a bit
 unset SETTITLE NORMAL_COLOR RED_COLOR GREEN_COLOR YELLOW_COLOR BLUE_COLOR PURPLE_COLOR CYAN_COLOR BOLD_COLOR
@@ -245,13 +244,17 @@ if [ -e ~/.bashrc-site ]; then
     source ~/.bashrc-site
 fi
 
-##display some neat info on login
+##Sorry for fucking this up
 if [ -z "$DISABLE_LOGIN_INFO" ]; then
     echo Welcome to $(tput bold)$(tput setaf 2)$(hostname --fqdn)$(tput sgr0)
     echo System uptime: $(tput bold)$(tput setaf 1)$(~/bin/uptime)$(tput sgr0)
-    echo Users connected: $(tput bold)$(tput setaf 3)$(who -q | head -n 1 | sed 's/[ ][ ]*/, /g')$(tput sgr0)
+##    echo Users connected: $(tput bold)$(tput setaf 3)$(who -q | head -n 1 | sed 's/[ ][ ]*/, /g')$(tput sgr0) ## needs fixing
     echo Language and encoding: $(tput bold)$(tput setaf 6)${LANG-unknown}$(tput sgr0)
-    echo QOTD: $(tput bold)$(tput setaf 5)$(~/bin/qotd)$(tput sgr0)
+##    echo QOTD: $(tput bold)$(tput setaf 5)$(~/bin/qotd)$(tput sgr0) ## uncomment for QOTD
+    echo "        $(tput setaf 5) ___           $(tput setaf 4) ____$(tput sgr0)"
+    echo "   $(tput setaf 4)/  / $(tput setaf 5)/    $(tput setaf 7)/    $(tput setaf 5)/    $(tput setaf 4)/   / 7 m ???$(tput sgr0)"
+    echo "  $(tput setaf 4)/--/ $(tput setaf 5)/--- $(tput setaf 7)/    $(tput setaf 5)/    $(tput setaf 4)/   / /  a  ??$(tput sgr0)"
+    echo " $(tput setaf 4)/  / $(tput setaf 5)/___ $(tput setaf 7)/___ $(tput setaf 5)/___ $(tput setaf 4)/___/ .   v  ?$(tput sgr0)"
     
     export DISABLE_LOGIN_INFO=1
 fi
