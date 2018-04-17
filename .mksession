@@ -1,0 +1,7 @@
+#!/bin/bash
+#samantha@summoner's tmux session generator
+tmux new -d
+tmux split -t 0.1 -h
+tmux send-keys -t 0.2 "rawr" C-m
+tmux split -t 0.2
+tmux attach
