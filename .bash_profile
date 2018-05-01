@@ -1,4 +1,4 @@
-###MYSTERYomg's .bash_profile modified off of $Yoplitein
+###HearMeRawr's .bash_profile modified off of $Yoplitein
 
 #if not running interactively, don't do anything
 if [ -z "$PS1" ]; then
@@ -244,18 +244,17 @@ if [ -e ~/.bashrc-site ]; then
     source ~/.bashrc-site
 fi
 
-##Sorry for fucking this up
-if [ -z "$DISABLE_LOGIN_INFO" ]; then
+#Login message!
+function welcome_info()
+{
     echo Welcome to $(tput bold)$(tput setaf 2)$(hostname --fqdn)$(tput sgr0)
     echo System uptime: $(tput bold)$(tput setaf 1)$(~/bin/uptime)$(tput sgr0)
 ##    echo Users connected: $(tput bold)$(tput setaf 3)$(who -q | head -n 1 | sed 's/[ ][ ]*/, /g')$(tput sgr0) ## needs fixing
     echo Language and encoding: $(tput bold)$(tput setaf 6)${LANG-unknown}$(tput sgr0)
-##    echo QOTD: $(tput bold)$(tput setaf 5)$(~/bin/qotd)$(tput sgr0) ## uncomment for QOTD
-    echo "        $(tput setaf 5) ___           $(tput setaf 4) ____$(tput sgr0)"
-    echo "   $(tput setaf 4)/  / $(tput setaf 5)/    $(tput setaf 7)/    $(tput setaf 5)/    $(tput setaf 4)/   / 7 m ???$(tput sgr0)"
-    echo "  $(tput setaf 4)/--/ $(tput setaf 5)/--- $(tput setaf 7)/    $(tput setaf 5)/    $(tput setaf 4)/   / /  a  ??$(tput sgr0)"
-    echo " $(tput setaf 4)/  / $(tput setaf 5)/___ $(tput setaf 7)/___ $(tput setaf 5)/___ $(tput setaf 4)/___/ .   v  ?$(tput sgr0)"
-    
+    echo QOTD: $(tput bold)$(tput setaf 5)$(~/bin/qotd)$(tput sgr0) ## uncomment for QOTD
+}
+if [ -z "$DISABLE_LOGIN_INFO" ]; then
+    welcome_info
     export DISABLE_LOGIN_INFO=1
 fi
 
@@ -280,6 +279,22 @@ if command -v ssh-agent > /dev/null; then
     fixenv
 fi
 
+#create/attach to a tmux session
+if [ -z "$TMUX" ]; then
+    tmux ls 2>&1 | grep "no server running"
+    
+    if [ $? -gt 0 ]; then
+        newsession="$(tmux new -dPt 0)"
+        tmux ls
+        tmux new-window -t $newsession
+        tmux ls
+        tmux attach -t $newsession
+    else
+        if [ -f ~/.mksession ]; then
+            ~/.mksession
+        fi
+    fi
+fi
 #display an interesting logout message
 function handle_logout()
 {
