@@ -1,0 +1,5 @@
+alias ls="ls -A --color"
+#alias rawr="echo rawr"
+alias subl='subl3'
+alias wifi-menu='sudo wifi-menu'
+
