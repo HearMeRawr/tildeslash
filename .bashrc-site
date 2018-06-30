@@ -2,4 +2,5 @@ alias ls="ls -A --color"
 #alias rawr="echo rawr"
 alias subl='subl3'
 alias wifi-menu='sudo wifi-menu'
-
+alias docker='sudo docker'
+alias dockerend='sudo docker rm $(docker ps -a -q -f status=exited)'

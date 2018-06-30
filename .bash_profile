@@ -295,6 +295,7 @@ if [ -z "$TMUX" ]; then
         fi
     fi
 fi
+
 #display an interesting logout message
 function handle_logout()
 {

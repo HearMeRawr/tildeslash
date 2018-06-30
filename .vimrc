@@ -81,8 +81,8 @@ nnoremap s :m +1<CR>
 "don't strip spaces from empty lines
 inoremap <CR> <CR>x<BS>
 
-"goppend made me do it
-nnoremap x :echo "hi goppend"<CR>
+"fuck you
+nnoremap x :echo "rawr ecks dee"<CR>
 
 ""highlighting settings
 "change comments to a light blue (courtesy of Kev)
@@ -91,3 +91,8 @@ hi comment ctermfg=blue
 ""filetype associations
 "AngelScript
 au BufNewFile,BufRead *.as setlocal ft=cpp
+
+""Color Syntax
+"Sublime-like Monokai
+syntax on
+colorscheme sublimemonokai
