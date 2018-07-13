@@ -5,9 +5,9 @@ from urllib2 import Request, build_opener, HTTPError, URLError
 from argparse import ArgumentParser
 import os, syslog, time, subprocess, stat, glob
 
-VERSION = "1.17"
-REPO_NAME = "Yoplitein/tildeslash"
-REPO_HOST = "bitbucket"
+VERSION = "2"
+REPO_NAME = "HearMeRawr/tildeslash"
+REPO_HOST = "github"
 REPO_TYPE = "git"
 
 try:
@@ -213,6 +213,8 @@ def main():
     
     #Confirm, for safety's sake
     if not args.runSilent:
+        URL = getBaseURL()
+        print("We're checking {}".format(URL))
         yesNo = raw_input("Are you sure? (Y/n) ")
         
         if yesNo.lower() not in ["y", ""]:

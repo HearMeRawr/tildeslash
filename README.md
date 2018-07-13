@@ -23,6 +23,9 @@ Installing the dotfiles
 
 ```
 git clone https:/github.com/HearMeRawr/tildeslash.git 
+cp ~/tildeslash/update-dotfiles.py ~/bin/update-dotfiles
+chmod +x ~/bin/update-dotfiles
+update-dotfiles
 ```
 
-Copy out each file to it's proper location outside of tildeslash.
+Feel free to fork.
