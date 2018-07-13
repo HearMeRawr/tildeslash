@@ -3,7 +3,7 @@
 #audible_bell = false
 #clickable_url = true
 #dynamic_title = true
-font =  Inconsolata 10
+font =  Inconsolata 12
 #fullscreen = true
 #geometry = 640x480
 #icon_name = terminal
@@ -43,10 +43,10 @@ scrollback_lines = 10000
 foreground      = #919191
 foreground_bold = #919191
 cursor          = #919191
-background      = #170000
+background      = rgba(23, 0, 0, 0.8)
 
 # black
-color0  = #303030
+color0  = #170000
 color8  = #5e5e5e
 
 # red
