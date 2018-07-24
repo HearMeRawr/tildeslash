@@ -1,0 +1,64 @@
+#!/bin/bash
+
+if [ "$1" != "" ]; then
+
+    DIR=$HOME/Themes/$1/
+    
+    if [ -d "$DIR" ]; then
+        echo "Installing theme in" $DIR
+
+        ln -sf "$DIR/termite/config_light" "$HOME/.config/termite/config_light"
+        ln -sf "$DIR/termite/config_dark" "$HOME/.config/termite/config_dark"
+        ln -sf "$DIR/i3/background.jpg" "$HOME/.config/i3/background.jpg"
+        feh --bg-scale $DIR/i3/background.jpg
+        ln -sf "$DIR/i3/config" "$HOME/.config/i3/config"
+        ln -sf "$DIR/i3status/config" "$HOME/.config/i3status/config"
+        i3 restart
+        
+         
+        if [ "$2" != "" ]; then
+            if [ "$2" = "light" ]; then
+                ln -sf "$DIR/termite/config_light" "$HOME/.config/termite/config"
+                killall -USR1 termite
+            elif [ "$2" = "dark" ]; then
+                ln -sf "$DIR/termite/config_dark" "$HOME/.config/termite/config"
+                killall -USR1 termite
+            else
+                echo "$2 isn't light | dark, defaulting to dark..."
+                ln -sf "$DIR/termite/config_dark" "$HOME/.config/termite/config"
+                killall -USR1 termite
+            fi
+        else
+            ln -sf "$DIR/termite/config_dark" "$HOME/.config/termite/config"
+            killall -USR1 termite
+        fi
+        
+        echo "Theme is now $1"
+    elif [ "$1" = "--help" ]; then
+        echo '
+        shellac;
+        usage: shellac | {$themename} | {dark, light}
+        description: an i3 theme switcher
+        {themename}: name of theme in $HOME/Themes
+        '
+    else
+        echo "$1 is not a theme in $HOME/Themes, use --help"
+    fi
+elif [ -d "$HOME/Themes/default" ]; then
+    
+    DEF=$HOME/Themes/default
+    echo "Switching to default theme..."
+
+    ln -sf "$DEF/termite/config_light" "$HOME/.config/termite/config_light"
+    ln -sf "$DEF/termite/config_dark" "$HOME/.config/termite/config_dark"
+    ln -sf "$DEF/i3/background.jpg" "$HOME/.config/i3/background.jpg"
+    feh --bg-scale $DEF/i3/background.jpg
+    ln -sf "$DEF/i3/config" "$HOME/.config/i3/config"
+    ln -sf "$DEF/i3status/config" "$HOME/.config/i3status/config"
+    i3 restart
+elif [-d "$HOME/Themes"]; then
+    echo "You have no themes!"
+else
+    echo "You have no Themes folder, generating one..."
+    mkdir $HOME/Themes
+fi

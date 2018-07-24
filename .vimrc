@@ -1,5 +1,14 @@
-"""Yoplitein's simple and sweet .vimrc
-
+"""Samanthas's simple and sweet .vimrc
+"pathogen
+execute pathogen#infect()
+"NERDTree
+autocmd vimenter * NERDTree
+let NERDTreeShowHidden=1
+"Split keybinds
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 ""general stuff
 set nocompatible
 syntax on
