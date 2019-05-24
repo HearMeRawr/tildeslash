@@ -154,7 +154,7 @@ export GROFF_NO_SGR=yes #stupid openSUSE behaviour fix
 
 ##misc
 #add ~/bin, /sbin, /usr/sbin to path
-export PATH=~/bin:$PATH:/sbin:/usr/sbin
+export PATH=~/bin:$PATH:/sbin:/usr/sbin:~/.gem/ruby/2.6.0/bin
 
 #set pager
 export PAGER=less
@@ -189,6 +189,15 @@ alias less='less -R'
 alias dm='dirman'
 alias where='command -V'
 alias hexdump='hexdump -vC'
+
+#navigational aliases
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+#vim, but for bash!
+alias :q='exit'
+alias :w='touch'
 
 #stupid openSUSE behaviour fixes
 alias man='MAN_POSIXLY_CORRECT=true man'
@@ -251,7 +260,6 @@ function welcome_info()
     echo System uptime: $(tput bold)$(tput setaf 1)$(~/bin/uptime)$(tput sgr0)
 ##    echo Users connected: $(tput bold)$(tput setaf 3)$(who -q | head -n 1 | sed 's/[ ][ ]*/, /g')$(tput sgr0) ## needs fixing
     echo Language and encoding: $(tput bold)$(tput setaf 6)${LANG-unknown}$(tput sgr0)
-    echo QOTD: $(tput bold)$(tput setaf 5)$(~/bin/qotd)$(tput sgr0) ## uncomment for QOTD
 }
 if [ -z "$DISABLE_LOGIN_INFO" ]; then
     welcome_info
@@ -278,7 +286,6 @@ if command -v ssh-agent > /dev/null; then
     
     fixenv
 fi
-
 #create/attach to a tmux session
 if [ -z "$TMUX" ]; then
     tmux ls 2>&1 | grep "no server running"
