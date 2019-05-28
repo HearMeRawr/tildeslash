@@ -1,7 +1,7 @@
 #!/bin/bash
 #samantha@summoner's tmux session generator
 tmux new -d
-tmux send-keys -t 0.1 "clear; vim notes.txt && clear" C-m
+tmux send-keys -t 0.1 "clear; joplin && clear" C-m
 tmux split -t 0.1 -h
 tmux send-keys -t 0.2 "htop" C-m
 tmux split -t 0.2
