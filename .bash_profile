@@ -93,31 +93,6 @@ function build_title_string()
     echo -n $titleStr
 }
 
-#display the running command in the title
-#solution courtesy of Gilles from superuser.com
-function preexec() { :; }
-function preexec_invoke()
-{
-    #if returning from the command, do nothing
-    if [ -n "$COMP_LINE" ]; then
-        return
-    fi
-    
-    local this_command=`history 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g"`
-    local curdir=${PWD}
-    
-    if [ "$curdir" == "$HOME" ]; then
-        curdir="~"
-    fi
-    
-    echo -ne $(build_title_string "${USER}@$(hostname -s):${curdir##*/} \$$this_command")
-    preexec "$this_command"
-}
-
-if tput hs; then
-    trap "preexec_invoke" DEBUG
-fi
-
 #sets the window's title
 SETTITLE="\[$(build_title_string "\\u@\\h:\\w")\]"
 
@@ -154,7 +129,7 @@ export GROFF_NO_SGR=yes #stupid openSUSE behaviour fix
 
 ##misc
 #add ~/bin, /sbin, /usr/sbin to path
-export PATH=~/bin:$PATH:/sbin:/usr/sbin:~/.gem/ruby/2.6.0/bin
+export PATH=~/bin:$PATH:/sbin:/usr/sbin:~/.gem/ruby/2.7.0/bin/
 
 #set pager
 export PAGER=less
@@ -198,6 +173,9 @@ alias ....='cd ../../..'
 #vim, but for bash!
 alias :q='exit'
 alias :w='touch'
+
+#fuck
+alias fuck='sudo !!'
 
 #stupid openSUSE behaviour fixes
 alias man='MAN_POSIXLY_CORRECT=true man'
@@ -256,51 +234,28 @@ fi
 #Login message!
 function welcome_info()
 {
-    echo Welcome to $(tput bold)$(tput setaf 2)$(hostname --fqdn)$(tput sgr0)
-    echo System uptime: $(tput bold)$(tput setaf 1)$(~/bin/uptime)$(tput sgr0)
-##    echo Users connected: $(tput bold)$(tput setaf 3)$(who -q | head -n 1 | sed 's/[ ][ ]*/, /g')$(tput sgr0) ## needs fixing
-    echo Language and encoding: $(tput bold)$(tput setaf 6)${LANG-unknown}$(tput sgr0)
+    echo '
+            ______              
+       .d$$$******$$$$c.        
+    .d$P"            "$$c      
+   $$$$$.           .$$$*$.    
+ .$$ 4$L*$$.     .$$Pd$   $b   
+ $F   *$. "$$e.e$$" 4$F   ^$b  
+d$     $$   z$$$e   $$      $. 
+$P     `$L$$P` `"$$d$"      $$ 
+$$     e$$F       4$$b.     $$ 
+$b  .$$" $$      .$$ "4$b.  $$ 
+$$e$P"    $b     d$`    "$$c$F 
+`$P$$$$$$$$$$$$$$$$$$$$$$$$$$  
+ "$c.      4$.  $$       .$$   
+  ^$$.      $$ d$"      d$P    
+    "$$c.   `$b$F    .d$P"     
+      `4$$$c.$$$..e$$P"        
+          `^^^^^^^`'
 }
 if [ -z "$DISABLE_LOGIN_INFO" ]; then
     welcome_info
     export DISABLE_LOGIN_INFO=1
-fi
-
-##run ssh-agent when logging in (if it exists)
-if command -v ssh-agent > /dev/null; then
-    #only run it when first logging in, if an agent hasn't been forwarded through ssh, and only if it's not already running
-    if [ $SHLVL -eq 1 -a -z "$SSH_AUTH_SOCK" -a "$(psu | grep ssh-agent | grep -v grep | wc -l)" -eq 0 ]; then
-        eval $(ssh-agent -s)
-        ln -sf "$SSH_AUTH_SOCK" "$HOME/.ssh/agent.sock"
-        echo -n "$SSH_AGENT_PID" > ~/.ssh/agent.pid
-    fi
-    
-    function fixenv()
-    {
-        export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
-        export SSH_AGENT_PID=$(cat ~/.ssh/agent.pid)
-    }
-    function addkey() { ssh-add $@; }
-    
-    export -f fixenv addkey
-    
-    fixenv
-fi
-#create/attach to a tmux session
-if [ -z "$TMUX" ]; then
-    tmux ls 2>&1 | grep "no server running"
-    
-    if [ $? -gt 0 ]; then
-        newsession="$(tmux new -dPt 0)"
-        tmux ls
-        tmux new-window -t $newsession
-        tmux ls
-        tmux attach -t $newsession
-    else
-        if [ -f ~/.mksession ]; then
-            ~/.mksession
-        fi
-    fi
 fi
 
 #display an interesting logout message
